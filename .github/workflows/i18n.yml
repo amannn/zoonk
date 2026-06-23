@@ -9,10 +9,14 @@ jobs:
   i18n-check:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - name: Check out code
+        uses: actions/checkout@v6
 
-      - name: Install gettext utilities
-        run: sudo apt-get update && sudo apt-get install -y gettext
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v6
+        with:
+          version: 11.6.0
+          run_install: true
 
-      - name: Check for untranslated entries
-        run: ./scripts/i18n.sh
+      - name: Check for i18n errors
+        run: pnpm eloqnt:lint
